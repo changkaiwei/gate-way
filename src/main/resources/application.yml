@@ -1,0 +1,31 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: after_route
+          uri: lb://userCenter
+          predicates:
+            - TimeBetween=上午8:00,下午10:00
+          filters:
+            - PreLog=aaaaaaa,bbbbbbbbbb
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+logging:
+  level:
+    org.springframework.cloud.gateway: trace
